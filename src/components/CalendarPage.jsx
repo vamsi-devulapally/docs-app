@@ -4,7 +4,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreateAppointment } from './CreateAppointment';
-import { appointments } from '../data/dummyData';
+import { appointments, addAppointment } from '../data/dummyData';
 
 const CalendarPage = () => {
   const location = useLocation();
@@ -18,13 +18,14 @@ const CalendarPage = () => {
       appointment.date === selectedDate.toISOString().split('T')[0]
     );
     setFilteredAppointments(filtered);
-  }, [selectedDate]);
+  }, [selectedDate, appointments]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date || new Date());
   };
 
   const handleAppointmentCreated = (newAppointment) => {
+    addAppointment(newAppointment);
     setFilteredAppointments([...filteredAppointments, newAppointment]);
   };
 

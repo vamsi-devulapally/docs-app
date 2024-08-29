@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { appointments } from '../data/dummyData';
@@ -6,9 +6,13 @@ import { appointments } from '../data/dummyData';
 const Appointments = () => {
   const location = useLocation();
   const from = location.state?.from || 'menu';
+  const [todaysAppointments, setTodaysAppointments] = useState([]);
 
-  const today = new Date().toISOString().split('T')[0];
-  const todaysAppointments = appointments.filter(appointment => appointment.date === today);
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const filtered = appointments.filter(appointment => appointment.date === today);
+    setTodaysAppointments(filtered);
+  }, []);
 
   return (
     <div className="p-6">

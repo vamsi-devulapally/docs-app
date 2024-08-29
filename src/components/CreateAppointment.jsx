@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { patients, appointments } from '../data/dummyData';
+import { patients, appointments, addAppointment } from '../data/dummyData';
 
 export const CreateAppointment = ({ selectedDate, onClose, onAppointmentCreated }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,7 +38,7 @@ export const CreateAppointment = ({ selectedDate, onClose, onAppointmentCreated 
         date: selectedDate.toISOString().split('T')[0],
         time: selectedSlot
       };
-      appointments.push(newAppointment);
+      addAppointment(newAppointment);
       onAppointmentCreated(newAppointment);
       onClose();
     }
