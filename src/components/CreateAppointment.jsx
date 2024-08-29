@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { patients, appointments } from '../data/dummyData';
 
-export const CreateAppointment = ({ selectedDate, onClose }) => {
-  const [patientName, setPatientName] = useState('');
+export const CreateAppointment = ({ selectedDate, onClose, onAppointmentCreated }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState('');
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
-  // Mock available time slots
+  useEffect(() => {
+    const filtered = patients.filter(patient => 
+      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPatients(filtered);
+  }, [searchTerm]);
+
   const availableSlots = [
     { time: '09:00 AM', status: 'available' },
     { time: '10:00 AM', status: 'conflict' },
@@ -20,9 +30,18 @@ export const CreateAppointment = ({ selectedDate, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically save the appointment
-    console.log('Appointment created:', { patientName, selectedSlot, date: selectedDate });
-    onClose();
+    if (selectedPatient && selectedSlot) {
+      const newAppointment = {
+        id: appointments.length + 1,
+        patientId: selectedPatient.id,
+        patientName: selectedPatient.name,
+        date: selectedDate.toISOString().split('T')[0],
+        time: selectedSlot
+      };
+      appointments.push(newAppointment);
+      onAppointmentCreated(newAppointment);
+      onClose();
+    }
   };
 
   return (
@@ -33,13 +52,29 @@ export const CreateAppointment = ({ selectedDate, onClose }) => {
         </CardHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="patientName">Patient Name</Label>
+            <Label htmlFor="patientSearch">Search Patient</Label>
             <Input
-              id="patientName"
-              value={patientName}
-              onChange={(e) => setPatientName(e.target.value)}
-              placeholder="Search patient..."
+              id="patientSearch"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by name or ID..."
             />
+            {filteredPatients.length > 0 && (
+              <ul className="mt-2 border rounded-md max-h-40 overflow-y-auto">
+                {filteredPatients.map(patient => (
+                  <li
+                    key={patient.id}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setSelectedPatient(patient);
+                      setSearchTerm(patient.name);
+                    }}
+                  >
+                    {patient.name} ({patient.id})
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div>
             <Label>Select Time Slot</Label>
@@ -62,7 +97,7 @@ export const CreateAppointment = ({ selectedDate, onClose }) => {
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit">Create Appointment</Button>
+            <Button type="submit" disabled={!selectedPatient || !selectedSlot}>Create Appointment</Button>
           </div>
         </form>
       </CardContent>

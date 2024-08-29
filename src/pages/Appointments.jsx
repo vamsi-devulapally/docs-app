@@ -1,17 +1,14 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { appointments } from '../data/dummyData';
 
 const Appointments = () => {
   const location = useLocation();
   const from = location.state?.from || 'menu';
 
-  // This should be fetched from an API in a real application
-  const appointments = [
-    { id: 1, patientName: "John Doe", date: "2024-03-15", time: "09:00 AM" },
-    { id: 2, patientName: "Jane Smith", date: "2024-03-15", time: "10:30 AM" },
-    { id: 3, patientName: "Alice Johnson", date: "2024-03-15", time: "02:00 PM" },
-  ];
+  const today = new Date().toISOString().split('T')[0];
+  const todaysAppointments = appointments.filter(appointment => appointment.date === today);
 
   return (
     <div className="p-6">
@@ -21,16 +18,16 @@ const Appointments = () => {
           <TableRow>
             <TableHead className="w-[100px]">S.No</TableHead>
             <TableHead>Patient Name</TableHead>
-            <TableHead>Appointment Date</TableHead>
+            <TableHead>Patient ID</TableHead>
             <TableHead>Time of Appointment</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {appointments.map((appointment, index) => (
+          {todaysAppointments.map((appointment, index) => (
             <TableRow key={appointment.id}>
               <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell>{appointment.patientName}</TableCell>
-              <TableCell>{appointment.date}</TableCell>
+              <TableCell>{appointment.patientId}</TableCell>
               <TableCell>{appointment.time}</TableCell>
             </TableRow>
           ))}

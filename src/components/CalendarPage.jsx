@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreateAppointment } from './CreateAppointment';
+import { appointments } from '../data/dummyData';
 
 const CalendarPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(location.state?.selectedDate || new Date());
   const [showCreateAppointment, setShowCreateAppointment] = useState(false);
+  const [filteredAppointments, setFilteredAppointments] = useState([]);
 
-  // Mock appointments data
-  const appointments = [
-    { id: 1, patientName: "John Doe", time: "09:00 AM", duration: 30 },
-    { id: 2, patientName: "Jane Smith", time: "11:30 AM", duration: 45 },
-    { id: 3, patientName: "Alice Johnson", time: "02:00 PM", duration: 60 },
-  ];
+  useEffect(() => {
+    const filtered = appointments.filter(appointment => 
+      appointment.date === selectedDate.toISOString().split('T')[0]
+    );
+    setFilteredAppointments(filtered);
+  }, [selectedDate]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    // Here you would typically fetch appointments for the selected date
+  };
+
+  const handleAppointmentCreated = (newAppointment) => {
+    setFilteredAppointments([...filteredAppointments, newAppointment]);
   };
 
   return (
@@ -48,10 +53,10 @@ const CalendarPage = () => {
             <CardTitle>Appointments for {selectedDate.toDateString()}</CardTitle>
           </CardHeader>
           <CardContent>
-            {appointments.map((appointment) => (
+            {filteredAppointments.map((appointment) => (
               <div key={appointment.id} className="mb-4 p-4 border rounded-md">
                 <p className="font-bold">{appointment.patientName}</p>
-                <p>{appointment.time} - Duration: {appointment.duration} minutes</p>
+                <p>{appointment.time}</p>
               </div>
             ))}
           </CardContent>
@@ -61,6 +66,7 @@ const CalendarPage = () => {
         <CreateAppointment
           selectedDate={selectedDate}
           onClose={() => setShowCreateAppointment(false)}
+          onAppointmentCreated={handleAppointmentCreated}
         />
       )}
     </div>
