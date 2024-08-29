@@ -10,7 +10,7 @@ const Dashboard = () => {
   const appointmentsToday = 5; // This should be fetched from an API
 
   const handleAppointmentsClick = () => {
-    navigate('/appointments');
+    navigate('/appointments', { state: { from: 'dashboard' } });
   };
 
   return (

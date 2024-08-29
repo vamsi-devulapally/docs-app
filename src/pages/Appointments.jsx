@@ -1,7 +1,11 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const Appointments = () => {
+  const location = useLocation();
+  const from = location.state?.from || 'menu';
+
   // This should be fetched from an API in a real application
   const appointments = [
     { id: 1, patientName: "John Doe", date: "2024-03-15", time: "09:00 AM" },

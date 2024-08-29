@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import Logo from './Logo';
 import { navItems } from '../nav-items';
 
@@ -9,6 +9,21 @@ const Navigation = () => {
   const location = useLocation();
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const getBreadcrumbs = () => {
+    const pathnames = location.pathname.split('/').filter((x) => x);
+    const breadcrumbs = [{ name: 'Dashboard', path: '/' }];
+
+    pathnames.forEach((name, index) => {
+      const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+      const navItem = navItems.find(item => item.to === routeTo);
+      if (navItem) {
+        breadcrumbs.push({ name: navItem.title, path: routeTo });
+      }
+    });
+
+    return breadcrumbs;
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -60,11 +75,17 @@ const Navigation = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div className="text-sm breadcrumbs">
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            {location.pathname !== '/' && (
-              <li>{navItems.find(item => item.to === location.pathname)?.title || 'Current Page'}</li>
-            )}
+          <ul className="flex items-center space-x-2">
+            {getBreadcrumbs().map((breadcrumb, index) => (
+              <React.Fragment key={breadcrumb.path}>
+                {index > 0 && <ChevronRight className="h-4 w-4 text-gray-400" />}
+                <li>
+                  <Link to={breadcrumb.path} className="text-blue-600 hover:text-blue-800">
+                    {breadcrumb.name}
+                  </Link>
+                </li>
+              </React.Fragment>
+            ))}
           </ul>
         </div>
       </div>
