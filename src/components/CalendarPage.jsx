@@ -9,7 +9,7 @@ import { appointments } from '../data/dummyData';
 const CalendarPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(location.state?.selectedDate || new Date());
+  const [selectedDate, setSelectedDate] = useState(location.state?.selectedDate ? new Date(location.state.selectedDate) : new Date());
   const [showCreateAppointment, setShowCreateAppointment] = useState(false);
   const [filteredAppointments, setFilteredAppointments] = useState([]);
 
@@ -21,7 +21,7 @@ const CalendarPage = () => {
   }, [selectedDate]);
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    setSelectedDate(date || new Date());
   };
 
   const handleAppointmentCreated = (newAppointment) => {
