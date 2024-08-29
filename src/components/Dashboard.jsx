@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
+import { useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Search, Users, Clock, Calendar as CalendarIcon } from "lucide-react";
 
@@ -11,6 +12,10 @@ const Dashboard = () => {
 
   const handleAppointmentsClick = () => {
     navigate('/appointments', { state: { from: 'dashboard' } });
+  };
+
+  const handleDateSelect = (date) => {
+    navigate('/calendar', { state: { selectedDate: date } });
   };
 
   return (
@@ -74,7 +79,11 @@ const Dashboard = () => {
             <CardTitle className="text-xl font-semibold">Appointment Calendar</CardTitle>
           </CardHeader>
           <CardContent>
-            <Calendar mode="single" className="rounded-md border" />
+            <Calendar 
+              mode="single" 
+              className="rounded-md border" 
+              onSelect={handleDateSelect}
+            />
           </CardContent>
         </Card>
         
