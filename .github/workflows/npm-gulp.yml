@@ -29,14 +29,10 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.3.6
       with:
+        name: github-pages
         path: dist
-    - name: GitHub Pages
-      uses: crazy-max/ghaction-github-pages@v4.0.0
-      with:
-        build_dir: dist
-        jekyll: false
-        verbose: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
         
       
