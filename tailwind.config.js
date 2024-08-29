@@ -24,32 +24,32 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(210, 100%, 50%)",
+          DEFAULT: "hsl(215, 91%, 33%)",
           foreground: "hsl(0, 0%, 100%)",
         },
         secondary: {
-          DEFAULT: "hsl(210, 50%, 80%)",
-          foreground: "hsl(210, 100%, 20%)",
+          DEFAULT: "hsl(215, 14%, 34%)",
+          foreground: "hsl(0, 0%, 100%)",
         },
         destructive: {
-          DEFAULT: "hsl(0, 100%, 50%)",
+          DEFAULT: "hsl(0, 84%, 60%)",
           foreground: "hsl(0, 0%, 100%)",
         },
         muted: {
           DEFAULT: "hsl(210, 20%, 90%)",
-          foreground: "hsl(210, 100%, 20%)",
+          foreground: "hsl(215, 14%, 34%)",
         },
         accent: {
-          DEFAULT: "hsl(210, 100%, 70%)",
-          foreground: "hsl(210, 100%, 10%)",
+          DEFAULT: "hsl(215, 91%, 33%)",
+          foreground: "hsl(0, 0%, 100%)",
         },
         popover: {
           DEFAULT: "hsl(0, 0%, 100%)",
-          foreground: "hsl(210, 100%, 20%)",
+          foreground: "hsl(215, 14%, 34%)",
         },
         card: {
           DEFAULT: "hsl(0, 0%, 100%)",
-          foreground: "hsl(210, 100%, 20%)",
+          foreground: "hsl(215, 14%, 34%)",
         },
       },
       borderRadius: {
