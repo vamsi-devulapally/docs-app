@@ -30,3 +30,11 @@ jobs:
       uses: actions/upload-artifact@v4.3.6
       with:
         path: dist
+    - name: GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v4.0.0
+      with:
+        build_dir: dist
+        jekyll: false
+        verbose: true
+        
+      
