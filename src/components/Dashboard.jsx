@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Search, Users, Clock, Calendar as CalendarIcon } from "lucide-react";
+import { appointments } from '../data/dummyData';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const appointmentsToday = 5; // This should be fetched from an API
+  const [appointmentsToday, setAppointmentsToday] = useState(0);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const todayAppointments = appointments.filter(appointment => appointment.date === today);
+    setAppointmentsToday(todayAppointments.length);
+  }, []);
 
   const handleAppointmentsClick = () => {
     navigate('/appointments', { state: { from: 'dashboard' } });
@@ -30,7 +37,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="text-2xl font-bold">{appointmentsToday}</div>
             <p className="text-xs text-muted-foreground">
-              +2% from last week
+              Updated from dummyData.js
             </p>
           </CardContent>
         </Card>
