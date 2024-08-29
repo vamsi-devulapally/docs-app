@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
-import { useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Search, Users, Clock, Calendar as CalendarIcon } from "lucide-react";
 
